@@ -1,13 +1,12 @@
 using untar.Archive;
-using untar.Model;
 
 namespace untar;
 
 internal class FileTypeCheck
 {
-    internal async Task<ArchiveType> GetFileArchiveTypeAsync(FileInfo fileInfo)
+    internal async Task<IArchiveType> GetFileArchiveTypeAsync(FileInfo fileInfo)
     {
-        ArchiveType archiveTypeResult = ArchiveType.Unknown;
+        IArchiveType result = null;
         
         List<IArchiveType> implementations = new List<IArchiveType>();
         
@@ -23,25 +22,25 @@ internal class FileTypeCheck
             {
                 if (await singleArchiveType.IsArchiveTypeAsync(fileInfo))
                 {
-                    archiveTypeResult = singleArchiveType.Type;
+                    result = singleArchiveType;
                     break;
                 }
             }
         }
 
-        if (archiveTypeResult == ArchiveType.Unknown)
+        if (result is null)
         {
             foreach (IArchiveType singleArchiveType in implementations)
             {
                 if (await singleArchiveType.IsArchiveTypeAsync(fileInfo))
                 {
-                    archiveTypeResult = singleArchiveType.Type;
+                    result = singleArchiveType;
                     break;
                 }    
             }
         }
         
-        return archiveTypeResult;
+        return result;
     }
 
     private IArchiveType CreateInstance(Type type)
