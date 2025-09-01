@@ -5,6 +5,8 @@ namespace untar.Archive;
 
 public class TarArchiveType : IArchiveType
 {
+    public string ArchiveExtensions { get; } = ".tar";
+    public ArchiveType Type { get; } = ArchiveType.Tar;
     public async Task<bool> IsArchiveTypeAsync(FileInfo fileInfo)
     {
         using(FileStream fileStream = fileInfo.Open(FileMode.Open, FileAccess.Read))
@@ -56,9 +58,6 @@ public class TarArchiveType : IArchiveType
 
         return true;
     }
-
-    public string ArchiveExtensions { get; } = ".tar";
-    public ArchiveType Type { get; } = ArchiveType.Tar;
 
     public void Dispose()
     {
