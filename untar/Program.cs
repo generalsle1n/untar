@@ -1,5 +1,5 @@
 ﻿using System.CommandLine;
-using untar.Model;
+using untar.Archive;
 
 namespace untar;
 
@@ -24,15 +24,14 @@ class Program
             FileInfo fileInfo = parseResult.GetRequiredValue(fileArgument);
 
             FileTypeCheck fileArchiveChecker = new FileTypeCheck();
-            ArchiveType type =  await fileArchiveChecker.GetFileArchiveTypeAsync(fileInfo);
-
+            IArchiveType type =  await fileArchiveChecker.GetFileArchiveTypeAsync(fileInfo);
             
-            // string folderName = Path.GetFileNameWithoutExtension(fileInfo.Name);
-            // folderName = Path.GetFileNameWithoutExtension(folderName);
-            //
-            // string absoluteFolder = Path.Combine(fileInfo.DirectoryName, folderName);
-            //
-            // Directory.CreateDirectory(absoluteFolder);
+            string folderName = type.GetFolderName(fileInfo);
+            string absoluteFolder = Path.Combine(fileInfo.DirectoryName, folderName);
+            
+            Directory.CreateDirectory(absoluteFolder);
+            DirectoryInfo directoryInfo = new DirectoryInfo(absoluteFolder);
+            await type.DecompressArchiveAsync(fileInfo, directoryInfo);
         });
         
         ParseResult result =  root.Parse(args);
