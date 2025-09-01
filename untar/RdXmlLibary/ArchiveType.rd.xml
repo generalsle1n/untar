@@ -4,6 +4,7 @@
         <Assembly Name="untar">
             <Type Name="untar.Archive.TarArchiveType" Dynamic="Required All"/>
             <Type Name="untar.Archive.TarGzArchiveType" Dynamic="Required All"/>
+            <Type Name="untar.Archive.ZipArchiveType" Dynamic="Required All"/>
         </Assembly>
     </Application>
 </Directives>

@@ -4,6 +4,7 @@ internal class ArchiveConfig
 {
     internal static readonly Type[] ArchiveTypes = {
         typeof(TarArchiveType),
-        typeof(TarGzArchiveType)
+        typeof(TarGzArchiveType),
+        typeof(ZipArchiveType)
     };
 }

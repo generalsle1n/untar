@@ -4,5 +4,6 @@ public enum ArchiveType
 {
     Targz,
     Tar,
+    Zip,
     Unknown
 }
